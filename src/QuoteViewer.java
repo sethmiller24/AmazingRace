@@ -6,12 +6,14 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.awt.font.*;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 public class QuoteViewer extends javax.swing.JComponent implements MouseMotionListener, ActionListener{
 	int x = 100, y = 100;
 	//button to rotate through quotes
 	JButton btnNextQ;
+	JButton btnPrevQ;
 	//button to commit/add a new quote from the text box
 	JButton addQuote;
 	//text box to add new quotes
@@ -29,8 +31,11 @@ public class QuoteViewer extends javax.swing.JComponent implements MouseMotionLi
 		
 		setLayout(new FlowLayout());
 		
-		this.btnNextQ = new JButton ("Next Quote");
+		this.btnNextQ = new JButton (new ImageIcon("next-white.jpg"));
 		add(btnNextQ);
+
+		this.btnPrevQ = new JButton (new ImageIcon("previous_3.jpg"));
+		add(btnPrevQ);
 
 		this.addQuote = new JButton ("Add Quote");
 		add(addQuote);
@@ -39,6 +44,7 @@ public class QuoteViewer extends javax.swing.JComponent implements MouseMotionLi
 		add(txt);
 		
 		this.btnNextQ.addActionListener(this);
+		this.btnPrevQ.addActionListener(this);
 		this.addQuote.addActionListener(this);
 		addMouseMotionListener(this);
 		
@@ -60,9 +66,7 @@ public class QuoteViewer extends javax.swing.JComponent implements MouseMotionLi
 		//will cycle through font sizes
 		g.setColor(colorwheel[currQIndex%3]);
 		g.setFont(new Font("Serif",Font.BOLD,((currQIndex%3)+2)*10));
-		g.drawString((String) quotes.get(currQIndex++), x, y);
-		if(currQIndex >= quotes.size())
-			currQIndex = 0;
+		g.drawString((String) quotes.get(currQIndex), x, y);
 		
 	}
 	
@@ -79,9 +83,15 @@ public class QuoteViewer extends javax.swing.JComponent implements MouseMotionLi
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource()==btnNextQ)
+		if (e.getSource()==btnNextQ){
+			if(currQIndex<(quotes.size()-1))
+				currQIndex++;
 			repaint();
-		else if (e.getSource() == addQuote){
+		}else if(e.getSource()==btnPrevQ){
+			if(currQIndex>0)
+				--currQIndex;
+			repaint();
+		}else if (e.getSource() == addQuote){
 			if (txt.getText().length()>0){
 				quotes.add((String)(txt.getText()));
 				txt.setText("");
