@@ -10,7 +10,10 @@ import javax.swing.JTextField;
 public class QuoteViewer extends javax.swing.JComponent implements MouseMotionListener, ActionListener{
 	int x = 100, y = 100;
 	JButton btnNextQ;
+	JButton addQuote;
+	JTextField txt;
 	private static int currQIndex = 0;
+	
 	ArrayList quotes = new ArrayList<String>();
 	
 	QuoteViewer(){
@@ -19,13 +22,27 @@ public class QuoteViewer extends javax.swing.JComponent implements MouseMotionLi
 		
 		this.btnNextQ = new JButton ("Next Quote");
 		add(btnNextQ);
+
+		this.addQuote = new JButton ("Add Quote");
+		add(addQuote);
+
+		txt = new JTextField(20);
+		add(txt);
 		
 		this.btnNextQ.addActionListener(this);
+		this.addQuote.addActionListener(this);
 		addMouseMotionListener(this);
 		
-		for (int i = 1; i<=10; i++) {
-			quotes.add("Default Quote "+i);
-		}
+		quotes.add("Don't pee into the wind - My Dad");
+		quotes.add("Don't get Covid - My Mom");
+		quotes.add("I'm Batman - Batman");
+		quotes.add("I'm the Joker baby - The Joker Baby");
+		quotes.add("Woah! Hey guys, welcome to EB Games - EB Games Employee");
+		quotes.add("Don't put me on the penny - Abe Lincoln");
+		quotes.add("The trail of tears is a bad idea - Everyone except Andrew Jackson");
+		quotes.add("Why the long face - The bartender talking to the horse");
+		quotes.add("Pizza Pizza - Ceasar");
+		quotes.add("The day of reckoning is coming - Papa John");
 	}
 	
 	public void paintComponent (Graphics g) {
@@ -49,7 +66,14 @@ public class QuoteViewer extends javax.swing.JComponent implements MouseMotionLi
 		// TODO Auto-generated method stub
 		if (e.getSource()==btnNextQ)
 			repaint();
-		
+		else if (e.getSource() == addQuote){
+			if (txt.getText().length()>0){
+				quotes.add((String)(txt.getText()));
+				txt.setText("");
+				repaint();
+			}
+		}
+
 	}
 
 }
